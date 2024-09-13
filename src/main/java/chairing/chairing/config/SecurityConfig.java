@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
+import chairing.chairing.domain.user.UserRole;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -18,15 +20,12 @@ public class SecurityConfig {
         http
             // 권한에 따른 경로 접근 설정
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                // /admin/** 경로는 ROLE_ADMIN 권한을 가진 사용자만 접근 허용
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                // /guardian/** 경로는 ROLE_GUARDIAN 권한을 가진 사용자만 접근 허용
-                .requestMatchers("/guardian/**").hasRole("GUARDIAN")
-                // /user/** 경로는 ROLE_USER 권한을 가진 사용자만 접근 허용
-                .requestMatchers("/normal/**").hasRole("NORMAL")
-                // 로그인 페이지는 모두 접근 가능
-                .requestMatchers("/user/login").permitAll()
-// TODO : 회원가입 페이지 접근 처리 해야함
+                // Enum을 사용하여 권한에 따른 경로 접근 설정
+                .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())  // ROLE_ADMIN
+                .requestMatchers("/guardian/**").hasRole(UserRole.GUARDIAN.name())  // ROLE_GUARDIAN
+                .requestMatchers("/normal/**").hasRole(UserRole.NORMAL.name())  // ROLE_NORMAL
+                .requestMatchers("/user/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated())  // 그 외의 모든 요청은 인증 필요
             .csrf((csrf) -> csrf
                 .ignoringRequestMatchers("/h2-console/**"))  // H2 콘솔에 대한 CSRF 비활성화

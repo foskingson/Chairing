@@ -2,7 +2,9 @@ package chairing.chairing.service.user;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import chairing.chairing.domain.user.User;
 import chairing.chairing.dto.user.UserCreateRequest;
@@ -10,15 +12,17 @@ import chairing.chairing.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class NormalService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User create(UserCreateRequest request) {
         User user = new User(
             request.getUsername(),
-            request.getPassword(),
+            passwordEncoder.encode(request.getPassword()),
             request.getPhoneNumber(),
             request.getRole(),
             request.getGuardianCode()

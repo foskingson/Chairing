@@ -9,12 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "users")
-@RequiredArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +24,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
 
-    private String phoneNumber;
 
-    private String guardianCode;
+    private String guardianCode = "0"; // 디폴트 설정 
+    
+
+    public User(String username, String password, String phoneNumber, UserRole role, String guardianCode) {
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.guardianCode = guardianCode;
+    }
 }

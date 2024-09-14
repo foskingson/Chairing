@@ -32,6 +32,10 @@ public class User {
 
 
     private String guardianCode = "0"; // 디폴트 설정 
+
+    public User() {
+        // 기본 생성자
+    }
     
 
     public User(String username, String password, String phoneNumber, UserRole role, String guardianCode) {

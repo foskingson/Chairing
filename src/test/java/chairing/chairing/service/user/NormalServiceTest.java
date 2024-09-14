@@ -17,7 +17,7 @@ import chairing.chairing.repository.user.UserRepository;
 public class NormalServiceTest {
 
     @Autowired
-    private NormalService normalService;
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -27,7 +27,7 @@ public class NormalServiceTest {
         UserCreateRequest request = new UserCreateRequest("testUser", "testPassword", "1234567890", UserRole.NORMAL,null);
 
 
-        User user = normalService.create(request);
+        User user = userService.create(request);
 
         assertEquals("testUser", user.getUsername());
         assertEquals("1234567890", user.getPhoneNumber());

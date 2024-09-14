@@ -13,10 +13,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
+
+@NoArgsConstructor
 @Getter
 @Entity
 public class Rental {
@@ -44,4 +46,19 @@ public class Rental {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RentalStatus status;
+
+    public void changeStatus(RentalStatus newStatus){
+        status=newStatus;
+    }
+
+    public Rental(User user, Wheelchair wheelchair, LocalDateTime rentalDate, LocalDateTime returnDate,
+            String rentalCode, RentalStatus status) {
+        this.user = user;
+        this.wheelchair = wheelchair;
+        this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+        this.rentalCode = rentalCode;
+        this.status = status;
+    }
+    
 }

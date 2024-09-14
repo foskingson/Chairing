@@ -25,15 +25,18 @@ public class Delivery {
 
     @OneToOne
     @JoinColumn(name = "rental_id", nullable = false)
-    private Rental rental;
+    private Rental rental;      //배송과 연결
 
     @Column(nullable = false)
-    private String trackingNumber;
+    private String trackingNumber;  //택배사 운송장 번호
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private DeliveryStatus deliveryStatus;
+    private DeliveryStatus deliveryStatus;  //배송상태
 
     @Column(nullable = false)
-    private String deliveryAddress;
+    private String deliveryAddress;         //배송지 주소
+
+    public Delivery() {
+    }
 }

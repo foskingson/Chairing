@@ -1,5 +1,8 @@
 package chairing.chairing.domain.delivery;
 
 public enum DeliveryStatus {
-    PENDING, IN_TRANSIT, DELIVERED
+    PENDING,        //배송 준비
+    IN_TRANSIT,     //배송 중
+    DELIVERED,      //배송 완료
+    Failed          //배송 실패
 }

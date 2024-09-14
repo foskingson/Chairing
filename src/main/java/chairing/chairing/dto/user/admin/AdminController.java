@@ -1,4 +1,4 @@
-package chairing.controller.admin;
+package chairing.chairing.dto.user.admin;
 
 import chairing.dto.admin.WheelchairStatusDTO;
 import chairing.service.AdminService;

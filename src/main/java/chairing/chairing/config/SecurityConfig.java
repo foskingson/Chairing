@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
-import chairing.chairing.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

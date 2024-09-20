@@ -38,6 +38,9 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 	implementation 'jakarta.transaction:jakarta.transaction-api:2.0.0'
 	annotationProcessor 'org.hibernate.validator:hibernate-validator-annotation-processor:8.0.0.Final'
+	implementation 'com.h2database:h2'
+	testCompileOnly 'org.projectlombok:lombok:1.18.20'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
 tasks.named('test') {

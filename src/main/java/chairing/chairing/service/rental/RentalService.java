@@ -80,4 +80,5 @@ public class RentalService {
         rental.changeStatus(RentalStatus.RETURNED);
         return rentalRepository.save(rental);
     }
+    
 }

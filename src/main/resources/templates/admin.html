@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 모드</title>
+</head>
+<body>
+<h1>관리자 모드</h1>
+
+<!-- 대기 중인 요청 목록 -->
+<h2>대기 중인 요청들</h2>
+<table>
+  <thead>
+  <tr>
+    <th>요청 ID</th>
+    <th>요청 상세 내용</th>
+    <th>사용자 ID</th>
+    <th>승인</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- 요청 리스트 반복 출력 -->
+  <tr th:each="request : ${pendingRequests}">
+    <td th:text="${request.id}">요청 ID</td>
+    <td th:text="${request.requestDetails}">요청 상세 내용</td>
+    <td th:text="${request.userId}">사용자 ID</td>
+    <td>
+      <button th:attr="onclick='approveRequest(' + ${request.id} + ')'" type="button">승인</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+  function approveRequest(requestId) {
+    // 승인 요청을 서버로 보냄 (POST 요청)
+    fetch(`/admin/approve/${requestId}`, {
+      method: 'POST'
+    })
+            .then(response => {
+              if (response.ok) {
+                alert("요청이 승인되었습니다.");
+                location.reload(); // 페이지를 새로고침하여 업데이트된 요청 목록을 반영
+              } else {
+                alert("승인에 실패했습니다.");
+              }
+            });
+  }
+</script>
+</body>
+</html>

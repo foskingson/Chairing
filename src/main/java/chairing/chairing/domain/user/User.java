@@ -32,19 +32,23 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
+    // 새로운 필드 추가: 주소
+    @Column(nullable = true)
+    private String address;
 
     private String guardianCode = "0"; // 디폴트 설정 
 
     public User() {
         // 기본 생성자
     }
-    
 
-    public User(String username, String password, String phoneNumber, UserRole role, String guardianCode) {
+
+    public User(String username, String password, String phoneNumber, UserRole role, String guardianCode, String address) {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.role = role;
         this.guardianCode = guardianCode;
+        this.address = address;
     }
 }

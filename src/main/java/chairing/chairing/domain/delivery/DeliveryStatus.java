@@ -4,5 +4,4 @@ public enum DeliveryStatus {
     PENDING,        //배송 준비
     IN_TRANSIT,     //배송 중
     DELIVERED,      //배송 완료
-    Failed          //배송 실패
 }

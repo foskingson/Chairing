@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>택배사 모드</title>
+</head>
+<body>
+<h1>택배사 모드</h1>
+
+<!-- 승인된 요청 목록 -->
+<h2>승인된 요청들</h2>
+<table>
+    <thead>
+    <tr>
+        <th>요청 ID</th>
+        <th>요청 상세 내용</th>
+        <th>현재 상태</th>
+        <th>상태 변경</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 승인된 요청 리스트 반복 출력 -->
+    <tr th:each="request : ${approvedRequests}">
+        <td th:text="${request.id}">요청 ID</td>
+        <td th:text="${request.requestDetails}">요청 상세 내용</td>
+        <td th:text="${request.deliveryStatus}">현재 상태</td>
+        <td>
+            <button th:attr="onclick='updateStatus(' + ${request.id} + ', \"배송중\")'" type="button">배송중으로 변경</button>
+            <button th:attr="onclick='updateStatus(' + ${request.id} + ', \"배송완료\")'" type="button">배송완료로 변경</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    function updateStatus(requestId, status) {
+        // 배송 상태 변경 요청을 서버로 보냄 (POST 요청)
+        fetch(`/courier/updateStatus/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: status })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert(`상태가 ${status}로 변경되었습니다.`);
+                    location.reload(); // 페이지를 새로고침하여 업데이트된 상태를 반영
+                } else {
+                    alert("상태 변경에 실패했습니다.");
+                }
+            });
+    }
+</script>
+</body>
+</html>

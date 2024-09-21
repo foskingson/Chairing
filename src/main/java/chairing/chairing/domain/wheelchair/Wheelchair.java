@@ -1,12 +1,6 @@
 package chairing.chairing.domain.wheelchair;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +23,7 @@ public class Wheelchair {
 
     // @Column(nullable = false)
     private String location = "here"; // TODO => POINT 타입을 String으로 매핑
-    
+
 
     public Wheelchair(WheelchairStatus status, WheelchairType type, String location) {
         this.status = status;

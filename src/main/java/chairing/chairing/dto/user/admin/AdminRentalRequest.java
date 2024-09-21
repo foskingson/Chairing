@@ -1,10 +1,11 @@
-package chairing.chairing.dto.user.admin;
+package chairing.chairing.dto.admin;
 
 import chairing.chairing.domain.rental.RentalStatus;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminRentalRequest {    //관리자가 대여 요청을 승인하거나 거부할 때 사용할 DTO

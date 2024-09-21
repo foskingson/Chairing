@@ -20,8 +20,12 @@ public class DeliveryController {
             @RequestBody DeliveryStatus status,
             @RequestParam String deliveryAddress) {  // deliveryAddress 추가
 
-        // 비정적 메서드 호출 (주입된 인스턴스 사용)
-        deliveryService.createOrUpdateCourier(rentalId, status, deliveryAddress);
-        return ResponseEntity.ok("Courier status updated successfully");
+        try {
+            deliveryService.createOrUpdateCourier(rentalId, status, deliveryAddress);
+            return ResponseEntity.ok("Courier status for rental ID " + rentalId + " updated to " + status + " at address: " + deliveryAddress);
+        } catch (Exception e) {
+            // 예외 발생 시 오류 메시지 반환
+            return ResponseEntity.status(500).body("Failed to update courier status: " + e.getMessage());
+        }
     }
 }

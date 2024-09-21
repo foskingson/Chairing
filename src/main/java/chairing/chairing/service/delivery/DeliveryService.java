@@ -3,6 +3,7 @@ package chairing.chairing.service.delivery;
 import chairing.chairing.domain.delivery.Delivery;
 import chairing.chairing.domain.delivery.DeliveryStatus;
 import chairing.chairing.domain.rental.Rental;
+import chairing.chairing.dto.delivery.DeliveryRequest;
 import chairing.chairing.repository.delivery.DeliveryRepository;
 import chairing.chairing.repository.rental.RentalRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,15 @@ public class DeliveryService {
 
         // Delivery 정보 저장
         deliveryRepository.save(delivery);
+
+        // 외부 API 호출을 통한 택배사와의 연동
+        String courierApiUrl = "http://courier-service.com/api/deliveries";
+        DeliveryRequest courierRequest = new DeliveryRequest(rentalId, deliveryAddress, status);
+
+        try {
+            restTemplate.postForEntity(courierApiUrl, courierRequest, String.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to communicate with courier service", e);
+        }
     }
 }

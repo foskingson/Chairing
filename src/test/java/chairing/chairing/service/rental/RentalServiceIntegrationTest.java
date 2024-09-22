@@ -3,6 +3,7 @@ import chairing.chairing.domain.rental.Rental;
 import chairing.chairing.domain.rental.RentalStatus;
 import chairing.chairing.domain.user.User;
 import chairing.chairing.domain.user.UserRole;
+import chairing.chairing.domain.wheelchair.Location;
 import chairing.chairing.domain.wheelchair.Wheelchair;
 import chairing.chairing.domain.wheelchair.WheelchairStatus;
 import chairing.chairing.domain.wheelchair.WheelchairType;
@@ -48,11 +49,11 @@ public class RentalServiceIntegrationTest {
         // 유아용 및 성인용 휠체어 각각 100개씩 생성하여 저장
         for (int i = 0; i < 100; i++) {
             // 유아용 휠체어 생성
-            Wheelchair childWheelchair = new Wheelchair(WheelchairStatus.AVAILABLE, WheelchairType.CHILD, "here");
+            Wheelchair childWheelchair = new Wheelchair(WheelchairStatus.AVAILABLE, WheelchairType.CHILD, new Location(0, 0));
             wheelchairRepository.save(childWheelchair);
 
             // 성인용 휠체어 생성
-            Wheelchair adultWheelchair = new Wheelchair(WheelchairStatus.AVAILABLE, WheelchairType.ADULT, "here");
+            Wheelchair adultWheelchair = new Wheelchair(WheelchairStatus.AVAILABLE, WheelchairType.ADULT, new Location(0, 0));
             wheelchairRepository.save(adultWheelchair);
         }
     }

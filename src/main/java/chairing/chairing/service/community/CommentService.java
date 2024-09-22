@@ -29,7 +29,7 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
         
         String username = principal.getName();
-        User user = userRepository.findByusername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
         Comment comment = new Comment(post, user, request.getContent());

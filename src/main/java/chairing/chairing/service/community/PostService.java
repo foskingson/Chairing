@@ -25,7 +25,7 @@ public class PostService {
 
     public Post createPost(Principal principal, PostRequest request) {
         String username = principal.getName();
-        User user = userRepository.findByusername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
         Post post = new Post(user, request.getTitle(), request.getContent(), request.getImageUrl());
         return postRepository.save(post);

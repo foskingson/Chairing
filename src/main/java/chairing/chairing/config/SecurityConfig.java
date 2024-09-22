@@ -19,10 +19,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-<<<<<<< HEAD
-=======
+
 import chairing.chairing.service.user.UserSecurityService;
->>>>>>> jo
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration

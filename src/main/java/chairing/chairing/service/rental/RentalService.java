@@ -36,7 +36,7 @@ public class RentalService {
     public Rental rentWheelchair(Principal principal, WheelchairType wheelchairType, LocalDateTime returnDate) {
         // 로그인한 유저 정보 가져오기
         String username = principal.getName();
-        User user = userRepository.findByusername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
         // 선택한 타입의 대여 가능한 휠체어 중 하나 가져오기
@@ -59,7 +59,7 @@ public class RentalService {
     public Rental returnWheelchair(Principal principal, Long rentalId) {
         // 로그인한 유저 정보 가져오기
         String username = principal.getName();
-        User user = userRepository.findByusername(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
         // 대여 정보 가져오기

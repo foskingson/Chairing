@@ -47,12 +47,12 @@ public class PostServiceTest {
         PostRequest request = new PostRequest("title", "content", "imageUrl");
         Principal principal = mock(Principal.class);
         when(principal.getName()).thenReturn("testuser");
-        when(userRepository.findByusername(anyString())).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
         when(postRepository.save(any(Post.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Post post = postService.createPost(principal, request);
 
-        verify(userRepository, times(1)).findByusername("testuser");
+        verify(userRepository, times(1)).findByUsername("testuser");
         verify(postRepository, times(1)).save(any(Post.class));
         assert post.getTitle().equals("title");
         assert post.getContent().equals("content");

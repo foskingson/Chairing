@@ -55,7 +55,7 @@ public class CommentServiceTest {
 
         when(principal.getName()).thenReturn(username);
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userRepository.findByusername(username)).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(commentRepository.save(any(Comment.class))).thenAnswer(invocation -> invocation.getArguments()[0]);
 
         // Act
@@ -67,7 +67,7 @@ public class CommentServiceTest {
         assertEquals(user, comment.getUser());
         assertEquals(content, comment.getContent());
         verify(postRepository, times(1)).findById(postId);
-        verify(userRepository, times(1)).findByusername(username);
+        verify(userRepository, times(1)).findByUsername(username);
         verify(commentRepository, times(1)).save(any(Comment.class));
     }
 

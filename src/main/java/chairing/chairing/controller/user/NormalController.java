@@ -1,73 +1,63 @@
 package chairing.chairing.controller.user;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import chairing.chairing.domain.rental.Rental;
 import chairing.chairing.domain.wheelchair.WheelchairType;
 import chairing.chairing.service.rental.RentalService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
+
+@RestController
 @RequiredArgsConstructor
 @Secured("NORMAL")
 @RequestMapping("/normal")
-@Controller
 public class NormalController {
 
     private final RentalService rentalService;
 
-
-
+    // 일반 사용자 페이지 환영 메시지
     @GetMapping
-    public String normalPage(Model model) {
-        // 필요한 데이터를 model에 담아서 뷰로 전달
-        model.addAttribute("message", "환영합니다! 일반 사용자 페이지입니다.");
-        return "normal";  // normal.html로 리턴 (템플릿 엔진에서 뷰를 렌더링)
+    public ResponseEntity<String> normalPage() {
+        return ResponseEntity.ok("Welcome to the normal user page");
     }
 
-    // 대여반납 로직 시작
+    // 대여 폼 보여주기 (휠체어 종류 반환)
     @GetMapping("/rent")
-    public String showRentForm(Model model) {
-        model.addAttribute("wheelchairTypes", WheelchairType.values());
-        return "rent";
+    public ResponseEntity<WheelchairType[]> showRentForm() {
+        return ResponseEntity.ok(WheelchairType.values());
     }
 
+    // 휠체어 대여 처리
     @PostMapping("/rent")
-    public String rentWheelchair(
+    public ResponseEntity<Rental> rentWheelchair(
             Principal principal,
             @RequestParam("wheelchairType") WheelchairType wheelchairType,
-            @RequestParam("returnDate") String returnDate,
-            Model model
+            @RequestParam("returnDate") String returnDate
     ) {
         LocalDateTime returnDateTime = LocalDateTime.parse(returnDate);
         Rental rental = rentalService.rentWheelchair(principal, wheelchairType, returnDateTime);
-        model.addAttribute("rental", rental);
-        return "rentalConfirmation";
+        return ResponseEntity.status(HttpStatus.CREATED).body(rental);
     }
 
-    @GetMapping("/return")
-    public String showReturnForm() {
-        return "return";
-    }
-
+    // 휠체어 반납 처리
     @PostMapping("/return")
-    public String returnWheelchair(
+    public ResponseEntity<Rental> returnWheelchair(
             Principal principal,
-            @RequestParam("rentalId") Long rentalId,
-            Model model
+            @RequestParam("rentalId") Long rentalId
     ) {
         Rental rental = rentalService.returnWheelchair(principal, rentalId);
-        model.addAttribute("rental", rental);
-        return "returnConfirmation";
+        return ResponseEntity.ok(rental);
     }
 }

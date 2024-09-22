@@ -25,9 +25,10 @@ public class UserSecurityService implements UserDetailsService {
     // 사용자의 이름(username)을 기반으로 사용자 정보를 로드하는 메서드
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Trying to authenticate user: " + username); // 로그 추가
         // 사용자 정보를 데이터베이스에서 가져오고, 없을 경우 예외를 던짐
-        chairing.chairing.domain.user.User user = userRepository.findByusername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        chairing.chairing.domain.user.User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // 사용자 권한을 담을 리스트 생성
         List<GrantedAuthority> authorities = new ArrayList<>();

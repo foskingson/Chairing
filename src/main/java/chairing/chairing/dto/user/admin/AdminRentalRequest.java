@@ -1,4 +1,4 @@
-package chairing.chairing.dto.admin;
+package chairing.chairing.dto.user.admin;
 
 import chairing.chairing.domain.rental.RentalStatus;
 import lombok.AllArgsConstructor;

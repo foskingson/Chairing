@@ -6,5 +6,5 @@ public enum RentalStatus {
     REJECTED,   // 거절됨
     COMPLETED,   // 완료됨
 
-    ACTIVE, RETURNED, CANCELED
+    ACTIVE, RETURNED
 }

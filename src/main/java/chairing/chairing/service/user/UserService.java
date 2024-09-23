@@ -25,7 +25,8 @@ public class UserService {
             passwordEncoder.encode(request.getPassword()),
             request.getPhoneNumber(),
             request.getRole(),
-            request.getGuardianCode()
+            request.getGuardianCode(),
+            request.getAddress()
         );
 
         this.userRepository.save(user);

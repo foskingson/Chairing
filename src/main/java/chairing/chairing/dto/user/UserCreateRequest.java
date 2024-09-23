@@ -30,6 +30,9 @@ public class UserCreateRequest {
     @NotNull(message = "사용자 역할은 필수항목입니다.")
     private UserRole role;
 
+    @NotNull(message = "주소는 필수항목입니다.")
+    private String address;
+
     private String guardianCode;    // 보호자 모드일 경우 보호자 코드를 입력 (optional)
 
     

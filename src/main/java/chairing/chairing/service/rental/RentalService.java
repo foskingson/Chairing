@@ -2,7 +2,6 @@ package chairing.chairing.service.rental;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class RentalService {
-    
+
     private final RentalRepository rentalRepository;
     private final WheelchairRepository wheelchairRepository;
     private final UserRepository userRepository;
 
-    // 대여 코드 생성
+    // 대여 코드 생성 (UUID 대신 타임스탬프 기반 코드)
     private String generateRentalCode() {
-        return UUID.randomUUID().toString();
+        return String.valueOf(System.currentTimeMillis());
     }
 
     // 휠체어 대여 로직
@@ -43,8 +42,8 @@ public class RentalService {
         Wheelchair wheelchair = wheelchairRepository.findFirstByTypeAndStatus(wheelchairType, WheelchairStatus.AVAILABLE)
                 .orElseThrow(() -> new IllegalArgumentException("대여 가능한 휠체어가 없습니다."));
 
-        // 대여 정보 생성 및 저장
-        Rental rental = new Rental(user, wheelchair, LocalDateTime.now(), returnDate, generateRentalCode(), RentalStatus.ACTIVE);
+        // 대여 정보 생성 및 저장 (생성된 고유 대여 코드 사용)
+        Rental rental = new Rental(user, wheelchair, LocalDateTime.now(), returnDate, RentalStatus.ACTIVE);
 
         // 휠체어 상태 변경
         wheelchair.changeStatus(WheelchairStatus.RENTED);
@@ -52,8 +51,6 @@ public class RentalService {
 
         return rentalRepository.save(rental);
     }
-
-
 
     @Transactional
     public Rental returnWheelchair(Principal principal, Long rentalId) {
@@ -80,5 +77,5 @@ public class RentalService {
         rental.changeStatus(RentalStatus.RETURNED);
         return rentalRepository.save(rental);
     }
-    
+
 }

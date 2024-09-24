@@ -2,6 +2,7 @@ package chairing.chairing.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+<<<<<<< HEAD
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,6 +11,13 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
+=======
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter // 테스트 용도
+>>>>>>> jo
 @Table(name = "users")
 public class User {
 

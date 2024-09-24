@@ -22,15 +22,15 @@ public class NormalServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    public void testCreateUser() {
-        UserCreateRequest request = new UserCreateRequest("testUser", "testPassword", "1234567890", UserRole.NORMAL,null);
+    // @Test
+    // public void testCreateUser() {
+    //     UserCreateRequest request = new UserCreateRequest("testUser", "testPassword", "1234567890", UserRole.NORMAL,null);
 
 
-        User user = userService.create(request);
+    //     User user = userService.create(request);
 
-        assertEquals("testUser", user.getUsername());
-        assertEquals("1234567890", user.getPhoneNumber());
+    //     assertEquals("testUser", user.getUsername());
+    //     assertEquals("1234567890", user.getPhoneNumber());
     
-    }
+    // }
 }

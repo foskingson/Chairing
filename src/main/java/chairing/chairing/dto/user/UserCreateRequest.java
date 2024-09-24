@@ -35,5 +35,7 @@ public class UserCreateRequest {
 
     private String guardianCode;    // 보호자 모드일 경우 보호자 코드를 입력 (optional)
 
-    
+
+    public UserCreateRequest(String testUser, String testPassword, String number, UserRole userRole, Object o) {
+    }
 }

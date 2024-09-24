@@ -1,22 +1,26 @@
 package chairing.chairing.domain.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(updatable = false, nullable = false)
+    private UUID userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -30,16 +34,10 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
-    // 새로운 필드 추가: 주소
     @Column(nullable = true)
     private String address;
 
-    private String guardianCode = "0"; // 디폴트 설정 
-
-    public User() {
-        // 기본 생성자
-    }
-
+    private String guardianCode = "0";
 
     public User(String username, String password, String phoneNumber, UserRole role, String guardianCode, String address) {
         this.username = username;

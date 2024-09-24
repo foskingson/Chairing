@@ -2,7 +2,6 @@ package chairing.chairing.repository.rental;
 
 import org.springframework.stereotype.Repository;
 
-import chairing.chairing.domain.rental.Rental;
 import chairing.chairing.domain.user.User;
 
 import java.util.Optional;

@@ -4,16 +4,13 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import chairing.chairing.domain.rental.Rental;
 import chairing.chairing.domain.wheelchair.WheelchairType;
-import chairing.chairing.service.rental.RentalService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.ui.Model;

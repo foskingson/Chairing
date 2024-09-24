@@ -1,7 +1,5 @@
 package chairing.chairing;
 
-import chairing.chairing.domain.rental.Rental;
-import chairing.chairing.domain.rental.RentalStatus;
 import chairing.chairing.domain.user.User;
 import chairing.chairing.domain.user.UserRole;
 import chairing.chairing.domain.wheelchair.Wheelchair;

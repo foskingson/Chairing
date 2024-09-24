@@ -3,7 +3,9 @@ package chairing.chairing.domain.wheelchair;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
@@ -11,8 +13,13 @@ import lombok.RequiredArgsConstructor;
 public class Wheelchair {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wheelchairId;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(updatable = false, nullable = false)
+    private UUID wheelchairId;
 
     @Enumerated(EnumType.STRING)
     private WheelchairStatus status;
@@ -21,9 +28,7 @@ public class Wheelchair {
     @Column(nullable = false)
     private WheelchairType type;
 
-    // @Column(nullable = false)
-    private String location = "here"; // TODO => POINT 타입을 String으로 매핑
-
+    private String location = "here";
 
     public Wheelchair(WheelchairStatus status, WheelchairType type, String location) {
         this.status = status;
@@ -31,8 +36,7 @@ public class Wheelchair {
         this.location = location;
     }
 
-
-    public void changeStatus(WheelchairStatus newStatus){
-        status=newStatus;
+    public void changeStatus(WheelchairStatus newStatus) {
+        this.status = newStatus;
     }
 }

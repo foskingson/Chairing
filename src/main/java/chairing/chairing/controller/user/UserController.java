@@ -3,10 +3,12 @@ package chairing.chairing.controller.user;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import chairing.chairing.config.JwtUtil;
+import chairing.chairing.domain.user.User;
 import chairing.chairing.dto.user.LoginRequest;
 import chairing.chairing.dto.user.UserCreateRequest;
 import chairing.chairing.service.user.UserService;
@@ -89,6 +91,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No token provided, logout failed");
     }
         
+    @GetMapping("/current")
+    public User getCurrentUser(@RequestHeader("Authorization") String token) {
+        // Bearer 토큰에서 JWT 부분만 분리
+        String jwt = token.substring(7); // "Bearer " 이후 부분 추출
+        User user = jwtUtil.getUserFromToken(jwt); // JWT에서 사용자 정보 추출
+        return user; // 현재 사용자 정보 반환
+    }
 
     @GetMapping("/authStatus")
     public ResponseEntity<?> getAuthStatus(HttpServletRequest request) {

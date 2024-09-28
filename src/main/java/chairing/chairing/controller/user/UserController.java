@@ -95,9 +95,11 @@ public class UserController {
     public User getCurrentUser(@RequestHeader("Authorization") String token) {
         // Bearer 토큰에서 JWT 부분만 분리
         String jwt = token.substring(7); // "Bearer " 이후 부분 추출
-        User user = jwtUtil.getUserFromToken(jwt); // JWT에서 사용자 정보 추출
+        Long userId = jwtUtil.getUserIdFromToken(jwt); // JWT에서 사용자 ID 추출
+        User user = userService.getCurrentUser(userId); // User 정보와 대여 정보 조회
         return user; // 현재 사용자 정보 반환
     }
+
 
     @GetMapping("/authStatus")
     public ResponseEntity<?> getAuthStatus(HttpServletRequest request) {

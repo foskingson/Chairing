@@ -12,7 +12,6 @@ import chairing.chairing.dto.community.PostRequest;
 import chairing.chairing.repository.community.PostRepository;
 import chairing.chairing.repository.user.UserRepository;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,7 +35,11 @@ public class PostService {
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
     
         // 파일 저장 로직
-        String imageUrl = saveFile(postRequest.getImageUrl()); // postRequest.getImageUrl()가 MultipartFile
+        String imageUrl = null; // 기본적으로 null로 설정
+        if (postRequest.getImageUrl() != null && !postRequest.getImageUrl().isEmpty()) {
+            imageUrl = saveFile(postRequest.getImageUrl()); // 파일이 있는 경우 저장
+        }
+
     
         // Post 객체 생성
         Post post = new Post(user, postRequest.getTitle(), postRequest.getContent(), imageUrl);
@@ -72,13 +75,32 @@ public class PostService {
         }
     
         try {
+            // 파일 이름과 확장자 분리
+            String originalFilename = file.getOriginalFilename();
+            String fileNameWithoutExt = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+    
             // 파일 저장 경로 설정
-            Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-            Files.createDirectories(path.getParent()); // 디렉토리 생성
-            Files.copy(file.getInputStream(), path); // 파일 복사
+            String newFileName = originalFilename; // 기본 이름
+            Path path = Paths.get(UPLOAD_DIR + newFileName);
+    
+            // 파일 이름 중복 처리
+            int count = 1;
+            while (Files.exists(path)) {
+                newFileName = fileNameWithoutExt + "_" + count + extension; // 새로운 이름 생성
+                path = Paths.get(UPLOAD_DIR + newFileName); // 경로 업데이트
+                System.out.println("중복 파일 발견: " + newFileName); // 중복 파일 발견 시 로그
+                count++;
+            }
+    
+            // 디렉토리 생성
+            Files.createDirectories(path.getParent());
+            // 파일 복사
+            Files.copy(file.getInputStream(), path);
+            System.out.println("저장된 파일 이름: " + newFileName); // 저장된 파일 이름 출력
     
             // 저장된 파일의 URL 반환 (상대 경로)
-            return "/" + UPLOAD_DIR + file.getOriginalFilename();
+            return "/" + UPLOAD_DIR + newFileName;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("파일 저장 중 오류가 발생했습니다."); // 명시적 예외 처리

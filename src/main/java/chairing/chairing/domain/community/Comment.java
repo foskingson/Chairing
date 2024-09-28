@@ -21,12 +21,12 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", nullable = false)
-    @JsonBackReference // 추가
+    @JsonBackReference
     private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference // 추가
+    // @JsonBackReference // 추가
     private User user;
 
     @Column(nullable = false)

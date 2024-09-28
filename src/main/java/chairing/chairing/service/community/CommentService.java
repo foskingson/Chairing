@@ -45,6 +45,6 @@ public class CommentService {
     @Transactional
     public List<Comment> getCommentsByPostId(Long postId) {
         // postId로 댓글 목록을 조회하는 로직
-        return commentRepository.findByPost_PostId(postId);
+        return commentRepository.findByPostIdWithUser(postId);
     }
 }

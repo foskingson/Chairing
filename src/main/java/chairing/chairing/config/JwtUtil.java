@@ -55,6 +55,11 @@ public class JwtUtil {
                 .compact();
     }
 
+    public Long getUserIdFromToken(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", Long.class); // userId를 반환
+    }
+    
     // 토큰 검증 메서드
     public boolean validateToken(String token, UserDetails userDetails) {
         String username = extractUsername(token);

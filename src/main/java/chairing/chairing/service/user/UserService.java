@@ -24,6 +24,13 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
+    public User getCurrentUser(Long userId) {
+        // userId를 통해 User 정보를 가져오고, 대여 정보도 포함하여 반환
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    }
+
+    @Transactional
     public User create(UserCreateRequest request) {
         User user = new User(
             request.getUsername(),
@@ -47,4 +54,7 @@ public class UserService {
         return authentication;
     }
     
+    public User findByUsernameWithRentals(String username) {
+        return userRepository.findByUsernameWithRentals(username);
+    }
 }

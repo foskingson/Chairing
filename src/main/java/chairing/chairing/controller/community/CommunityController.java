@@ -79,9 +79,13 @@ public class CommunityController {
     }
 
     // 댓글 삭제
-    @DeleteMapping("/comment/{id}/delete")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
-        return ResponseEntity.ok("Comment deleted successfully");
+    @DeleteMapping("/post/{postId}/comment/{commentId}/delete")
+    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
+        try {
+            commentService.deleteComment(commentId);
+            return ResponseEntity.ok("Comment deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting comment: " + e.getMessage());
+        }
     }
 }

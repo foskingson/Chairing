@@ -1,5 +1,6 @@
 package chairing.chairing.domain.rental;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -41,9 +42,9 @@ public class Rental {
     private Wheelchair wheelchair;
 
     @Column(nullable = false)
-    private LocalDateTime rentalDate;
+    private LocalDate rentalDate;
 
-    private LocalDateTime returnDate;
+    private LocalDate returnDate;
 
     @Column(nullable = false)
     private String rentalCode; // 임의의 코드
@@ -56,7 +57,7 @@ public class Rental {
         status=newStatus;
     }
 
-    public Rental(User user, Wheelchair wheelchair, LocalDateTime rentalDate, LocalDateTime returnDate,
+    public Rental(User user, Wheelchair wheelchair, LocalDate rentalDate, LocalDate returnDate,
             String rentalCode, RentalStatus status) {
         this.user = user;
         this.wheelchair = wheelchair;

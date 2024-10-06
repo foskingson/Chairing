@@ -1,5 +1,8 @@
 package chairing.chairing.service.user;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,5 +59,9 @@ public class UserService {
     
     public User findByUsernameWithRentals(String username) {
         return userRepository.findByUsernameWithRentals(username);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }

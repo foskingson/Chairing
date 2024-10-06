@@ -1,7 +1,9 @@
 package chairing.chairing.service.rental;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class RentalService {
     }
 
     @Transactional
-    public Rental rentWheelchair(String username, WheelchairType wheelchairType, LocalDateTime returnDate) {
+    public Rental rentWheelchair(String username, WheelchairType wheelchairType, LocalDate rentalDate, LocalDate returnDate) {
         // 로그인한 유저 정보 가져오기
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
@@ -41,7 +43,7 @@ public class RentalService {
         List<Rental> currentRentals = rentalRepository.findByUser(user);
         if (!currentRentals.isEmpty()) {
             for (Rental currentRental : currentRentals) {
-                if (currentRental.getStatus()==RentalStatus.ACTIVE) {
+                if (currentRental.getStatus() == RentalStatus.ACTIVE) {
                     throw new IllegalStateException("현재 이미 휠체어를 빌리고 있습니다.");
                 }
             }
@@ -52,14 +54,15 @@ public class RentalService {
                 .orElseThrow(() -> new IllegalArgumentException("대여 가능한 휠체어가 없습니다."));
     
         // 대여 정보 생성 및 저장
-        Rental rental = new Rental(user, wheelchair, LocalDateTime.now(), returnDate, generateRentalCode(), RentalStatus.ACTIVE);
+        Rental rental = new Rental(user, wheelchair, rentalDate, returnDate, generateRentalCode(), RentalStatus.WAITING); // rentalDate로 수정
     
         // 휠체어 상태 변경
-        wheelchair.changeStatus(WheelchairStatus.RENTED);
+        wheelchair.changeStatus(WheelchairStatus.WAITING);
         wheelchairRepository.save(wheelchair);
     
         return rentalRepository.save(rental);
     }
+    
     
     @Transactional
     public Rental returnWheelchair(String username) {
@@ -86,6 +89,40 @@ public class RentalService {
         return rentalRepository.save(rental);
     }
 
+    @Transactional
+    public Optional<Rental> findCurrentRentalByUser(User user) {
+        return rentalRepository.findCurrentRentalByUser(user);
+    }
+
+    @Transactional
+    public Optional<Rental> findCurrentRentalByUserV2(User user) {
+        return rentalRepository.findCurrentRentalByUserV2(user);
+    }
+
+    @Transactional
+    public void updateRental(Rental rental) {
+        rentalRepository.save(rental);
+    }
+
+    @Transactional
+    public Rental cancelWheelchair(String username) {
+        // 로그인한 유저 정보 가져오기
+        User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        
+        // 해당 사용자의 현재 대여 정보 가져오기
+        Rental rental = rentalRepository.findCurrentRentalByUserV2(user)
+                .orElseThrow(() -> new IllegalArgumentException("대여 기록을 찾을 수 없습니다."));
+
+        // 대여된 휠체어 상태를 "AVAILABLE"로 변경
+        Wheelchair wheelchair = rental.getWheelchair();
+        wheelchair.changeStatus(WheelchairStatus.AVAILABLE);
+        wheelchairRepository.save(wheelchair);
+
+        // 대여 상태를 "RETURNED"로 변경
+        rental.changeStatus(RentalStatus.RETURNED);
+        return rentalRepository.save(rental);
+    }
     
     
 }
